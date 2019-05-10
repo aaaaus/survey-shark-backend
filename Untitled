@@ -1,0 +1,10 @@
+//ajax example:
+
+//https://rallycoding.herokuapp.com/api/music_albums
+
+//fetch will return a promise, so we must chain on a .then statement
+function fetchAlbums() {
+  fetch('https://rallycoding.herokuapp.com/api/music_albums')
+    .then(res => res.json())
+    .then(json => console.log(json);)
+}
