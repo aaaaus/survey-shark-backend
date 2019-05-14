@@ -53,3 +53,10 @@ module.exports = {
 - Three properties are needed: amount (in USD cents), token (callback for when token is received from Stripe), and stripeKey (from env variables)
 
 - import Payment component into Header component and add to render, which will render a payment button in the Header
+
+- test transaction can be completed by using card number `4242 4242 4242 4242` and a JS object 'token' will be returned
+
+- Stripe Checkout element can be further modified with "name" and "description" properties, and can also be changed from self closing to enclosing a child element for control over styling
+
+- 'handleToken' action creator is set up to take the Stripe response and send it to a yet to be set up route on the backend; it expects the response to be a user which will be dispatched as existing FETCH_USER type (for header to re-render)
+- 'handleToken' must be wired to the Payments component to be used as the callback function in the "token" property of the StripeCheckout element
