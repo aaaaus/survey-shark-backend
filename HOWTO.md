@@ -22,7 +22,7 @@ console.log('hello world');
 More text
 Even more text
 
-##STRIPE
+## STRIPE
 
 - create an account on stripe.com
 - stripe will be in test mode, where it accepts test credit card numbers
@@ -39,3 +39,17 @@ module.exports = {
 ```
 
 - navigate to Heroku dashboard > settings > config vars, and add keys
+
+### Keys on client side
+
+- create `client/.env.development` and `client/.env.production`
+
+- add key to both as `REACT_APP_STRIPE_KEY=(KEY HERE)`
+
+### configuring Stripe on client side
+
+- create new component `Payments.js`
+- Within this component, only return is `<StripeCheckout />` component.
+- Three properties are needed: amount (in USD cents), token (callback for when token is received from Stripe), and stripeKey (from env variables)
+
+- import Payment component into Header component and add to render, which will render a payment button in the Header
