@@ -9,8 +9,6 @@
 - a
 - list
 
-Text
-
 `npm install --save test`
 `git push origin master`
 `more command line stuff`
@@ -18,9 +16,6 @@ Text
 ```javascript
 console.log('hello world');
 ```
-
-More text
-Even more text
 
 ## STRIPE
 
@@ -60,3 +55,9 @@ module.exports = {
 
 - 'handleToken' action creator is set up to take the Stripe response and send it to a yet to be set up route on the backend; it expects the response to be a user which will be dispatched as existing FETCH_USER type (for header to re-render)
 - 'handleToken' must be wired to the Payments component to be used as the callback function in the "token" property of the StripeCheckout element
+
+- On the backend, set up a route that listens to post requests on `api/stripe`
+
+- install `npm install --save stripe` in server directory
+
+- install `npm install --save body-parser` which will allow us to parse the req object being sent to the express backend (which contains the payment info). This middleware will put the parsed info into the 'req.body' property of the incoming request object
