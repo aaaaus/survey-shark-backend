@@ -90,3 +90,5 @@ if (process.env.NODE_ENV === 'production') {
 - Once project is pushed to Heroku, it will install server dependencies and run 'Heroku-postbuild'; here we can tell it to install client dependencies and run 'npm run build'
 
 - Add to scripts within sever's package.json file: `"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"`
+
+- NOTE TO SELF - when pushing to heroku master, the build was failing; updating node in 'package.json' to latest version (10.15.3 at time of writing) fixed issue (Heroku will download that version to build app)
