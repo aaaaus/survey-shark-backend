@@ -16,6 +16,7 @@ export const fetchUser = () => async dispatch => {
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
+//the token received from StripeCheckout is sent to our server; response will be updated user instance
 export const handleToken = token => async dispatch => {
   const res = await axios.post('/api/stripe', token);
   dispatch({ type: FETCH_USER, payload: res.data });

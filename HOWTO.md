@@ -65,3 +65,28 @@ module.exports = {
 - with body-parser, id can be pulled from stripe response object within the request handler; finalize charge is sent to Stripe API.
 - User model is updated to include a credits property
 - request handler updates the user instance and saves user, sends updated user instance back to frontend
+
+### Backend to Frontend Routing in Production
+
+- in production, the create-react-app server won't be sitting in front of the express server (such as in dev); requests previously going to localhost:3000 in dev environment will now be going to express directly (with exception to requests that were proxied over to localhost:5000)
+- When we're ready to go to production, we run `npm-run-build` on the client side to create a production build with all needed assets
+- Express must identify three types of routes - routes it has route handlers for, routes that are defined by react router on the front end, and routes trying to access very specific development assets (frontend main.js file for example)
+- set up a route hander in server/index.js to handle conditionally:
+
+```javascript
+if (process.env.NODE_ENV === 'production') {
+  //Express will serve up assets like main.js or main.css files
+  app.use(express.static('client/build'));
+  //Express will serve up index.html if it doesn't recognize route (catch all route handler)
+  const path = require('path');
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+```
+
+- Issue: within client, we are not tracking or committing 'client/build' files to git
+- Solution: once we push to Heroku, we will have Heroku create the final build
+- Once project is pushed to Heroku, it will install server dependencies and run 'Heroku-postbuild'; here we can tell it to install client dependencies and run 'npm run build'
+
+- Add to scripts within sever's package.json file: `"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"`
