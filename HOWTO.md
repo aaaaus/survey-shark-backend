@@ -61,3 +61,7 @@ module.exports = {
 - install `npm install --save stripe` in server directory
 
 - install `npm install --save body-parser` which will allow us to parse the req object being sent to the express backend (which contains the payment info). This middleware will put the parsed info into the 'req.body' property of the incoming request object
+
+- with body-parser, id can be pulled from stripe response object within the request handler; finalize charge is sent to Stripe API.
+- User model is updated to include a credits property
+- request handler updates the user instance and saves user, sends updated user instance back to frontend
