@@ -92,3 +92,17 @@ if (process.env.NODE_ENV === 'production') {
 - Add to scripts within sever's package.json file: `"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"`
 
 - NOTE TO SELF - when pushing to heroku master, the build was failing; updating node in 'package.json' to latest version (10.15.3 at time of writing) fixed issue (Heroku will download that version to build app)
+
+### Mongoose for Survey Creation
+
+- In server/models, create Survey model
+- Create a subdocument model 'Recipient'. This will be required by and passed into the Survey model (the idea behind this is that there is a 4mb limit on collections in Mongo - a single Survey collection is unlikely to exceed this even with the subdocument Recipient model)
+- establish relationship between survey and user (by convention, underscore is used to denote a relationship):
+
+```javascript
+_user: { type: Schema.Types.ObjectId, ref: 'User' }
+```
+
+- set up a surveyRoutes file, create post route for '/api/surveys', include the previously created 'requireLogin' middleware created for the billing router
+- create and include 'requireCredits' middleware, to ensure user has sufficient credits to proceed
+- in post route for '/api/surveys', a new survey is created with info passed from the client.

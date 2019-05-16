@@ -28,6 +28,7 @@ app.use(passport.session());
 //authRoutes(app); see refactor below
 require('./routes/authRoutes')(app); //require statment becomes a function where passing in app sets up oauth routes
 require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
   //Express will serve up assets like main.js or main.css files
