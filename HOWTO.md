@@ -106,3 +106,11 @@ _user: { type: Schema.Types.ObjectId, ref: 'User' }
 - set up a surveyRoutes file, create post route for '/api/surveys', include the previously created 'requireLogin' middleware created for the billing router
 - create and include 'requireCredits' middleware, to ensure user has sufficient credits to proceed
 - in post route for '/api/surveys', a new survey is created with info passed from the client.
+
+### SendGrid
+
+- send grid will be the third party application used for handling the distribution of emails
+- install SendGrid library using `npm install --save sendgrid`
+- sign up for SendGrid, add key to dev/prod, and to Heroku cvars
+- create a new file, 'Mailer.js' in services
+- this will define a new class, Mailer, that extends and adds onto the helper.Mail class from sendgrid.
