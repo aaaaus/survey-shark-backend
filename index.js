@@ -8,7 +8,6 @@ const keys = require('./config/keys'); //needed for mongoose.connect call
 require('./models/User'); //must precede passport code, which needs this to exist first
 require('./models/Survey');
 require('./services/passport'); //as we're not exporting anything from passport.js, does not need to be set to variable
-//const authRoutes = require('./routes/authRoutes'); see refactor below
 
 mongoose.connect(keys.mongoURI);
 
@@ -25,7 +24,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-//authRoutes(app); see refactor below
 require('./routes/authRoutes')(app); //require statment becomes a function where passing in app sets up oauth routes
 require('./routes/billingRoutes')(app);
 require('./routes/surveyRoutes')(app);

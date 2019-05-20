@@ -116,3 +116,7 @@ _user: { type: Schema.Types.ObjectId, ref: 'User' }
 - this will define a new class, Mailer, that extends and adds onto the helper.Mail class from SendGrid (it is rather configuration dense as needed per SendGrid documentation)
 - a surveyTemplate route is set up, and an instance of Mailer is created passing in a new Survey instance and a surveyTemplate. The mailer is what is sent to SendGrid.
 - in surveyRoutes, set up a new route for thanking users after they click for feedback. This will utilize a redirectDomain key (based on dev or prod) set up in the surveyTemplate file.
+
+### Client side setup of surveys
+
+- Create Dashboard component, add a button (from Materialize) that will link (react-router) to the SurveyNew component
