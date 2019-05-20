@@ -120,3 +120,19 @@ _user: { type: Schema.Types.ObjectId, ref: 'User' }
 ### Client side setup of surveys
 
 - Create Dashboard component, add a button (from Materialize) that will link (react-router) to the SurveyNew component
+
+### Redux Form
+
+- install Redux Form in the client side of the application (as of writing, last known good release is installed using `npm install redux-form@8.1.0`)
+
+- Redux Form will automatically configure the Redux routing (action creators, reducers, etc) that would have been needed to pass form data over to other components
+
+- After installing Redux Form, add the reducer to 'combineReducers', by importing it and setting it to the key 'form'
+
+- All survey related components are stored in `components/survey`. SurveyNew will toggle between SurveyForm and SurveyFormReview.
+
+- Within SurveyForm, wire up redux-form by importing `{ reduxForm }` from the library and adding it to the export statement with a configuration object.
+
+- also import 'Field' component from redux-form. The Field can be used to render any different type of HTML element that will collect input from a user.
+
+- Field components can be configured with type (i.e. text), name (anything, how it will be referenced), and component ("input" is acceptable, but you can also pass in React component as well)
