@@ -109,8 +109,10 @@ _user: { type: Schema.Types.ObjectId, ref: 'User' }
 
 ### SendGrid
 
-- send grid will be the third party application used for handling the distribution of emails
+- SendGrid will be the third party application used for handling the distribution of emails
 - install SendGrid library using `npm install --save sendgrid`
 - sign up for SendGrid, add key to dev/prod, and to Heroku cvars
 - create a new file, 'Mailer.js' in services
-- this will define a new class, Mailer, that extends and adds onto the helper.Mail class from sendgrid.
+- this will define a new class, Mailer, that extends and adds onto the helper.Mail class from SendGrid (it is rather configuration dense as needed per SendGrid documentation)
+- a surveyTemplate route is set up, and an instance of Mailer is created passing in a new Survey instance and a surveyTemplate. The mailer is what is sent to SendGrid.
+- in surveyRoutes, set up a new route for thanking users after they click for feedback. This will utilize a redirectDomain key (based on dev or prod) set up in the surveyTemplate file.
