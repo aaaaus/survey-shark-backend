@@ -138,3 +138,19 @@ _user: { type: Schema.Types.ObjectId, ref: 'User' }
 - Field components can be configured with type (i.e. text), name (anything, how it will be referenced), and component ("input" is acceptable, but you can also pass in React component as well)
 
 - Our surveyForm will use the 'Field' component to render SurveyField components. The changing properties of our fields will be drawn from a config array (const FIELDS) set at the top of the file.
+
+### Validation with Redux Form
+
+- Create a validate function within SurveyForm, outside of the class, that reduxForm will refer to. The purpose of the function is to return an errors object; if empty, all is good to go; if it has values, those values are returned to the corresponding Field components as error messages.
+
+### Reviewing the Survey
+
+- Create new component 'SurveyFormReview' where user will be able to review their form before the final submission. Whether or not this component is shown is determined by a state-level boolean in the parent component (SurveyNew).
+
+- The config array (FIELDS) from SurveyForm should be refactored into its own config file that both can reference with rendering their respective lists of JSX.
+
+- Redux Form option `destroyOnUnmount: false` will keep the form data from being disposed when the component change (SurveyForm). This allows us to switch to and from SurveyFormReview component to make changes. However, the parent component that contains both (SurveyNew) is also wired to Redux Form (and this specific form 'surveyForm'), so when navigating away from that component, the data will be dumped, as desired.
+
+- Redux mapStateToProps will bring in the formValues needed to populate this component. The submit button here will ultimately send off our formValues object to the action creator, where our data will be posted to the server.
+
+- In terms of client routing, once the data is submitted, the client should be routed back to the list of surveys. React Router's 'withRouter' function is used for this. It is configured in the export statement, which will add a history object to the props. This is passed to the action creator - following the conclusion of the post request, the client will be routed back to '/surveys' with the line `history.push('/surveys')`
