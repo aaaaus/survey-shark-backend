@@ -136,3 +136,5 @@ _user: { type: Schema.Types.ObjectId, ref: 'User' }
 - also import 'Field' component from redux-form. The Field can be used to render any different type of HTML element that will collect input from a user.
 
 - Field components can be configured with type (i.e. text), name (anything, how it will be referenced), and component ("input" is acceptable, but you can also pass in React component as well)
+
+- Our surveyForm will use the 'Field' component to render SurveyField components. The changing properties of our fields will be drawn from a config array (const FIELDS) set at the top of the file.
