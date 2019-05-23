@@ -154,3 +154,21 @@ _user: { type: Schema.Types.ObjectId, ref: 'User' }
 - Redux mapStateToProps will bring in the formValues needed to populate this component. The submit button here will ultimately send off our formValues object to the action creator, where our data will be posted to the server.
 
 - In terms of client routing, once the data is submitted, the client should be routed back to the list of surveys. React Router's 'withRouter' function is used for this. It is configured in the export statement, which will add a history object to the props. This is passed to the action creator - following the conclusion of the post request, the client will be routed back to '/surveys' with the line `history.push('/surveys')`
+
+## Webhooks
+
+- We will need to get information from SendGrid whenever a recipient clicks on one of the links inside of our email.
+
+### Webhooks in Development
+
+- In production, receiving post requests form SendGrid will be simple, but not so much in devleopment, where we are operating on localhost:5000. To work around this, we'll take advantage of a service called LocalTunnel, which will receive the post requests on their server, pass it to a local server we will install, which will then pass it to our localhost app server.
+
+- Install localtunnel: `npm install --save localtunnel`
+
+- A script to launch the server is set up in scripts `"webhook": "lt -p 5000 -s roewvnienssxk"`, and added to the dev script to be run with the other servers concurrently. A random string is used as the custom domain name.
+
+- SENDGRID: Login, go to settings > mail settings > event notification; under 'HTTP POST URL' enter the localtunnel url (found in console after server is launched). BE SURE TO INCLUDE the route where webhooks should be received (in our case: `/api/surveys/webhooks`). The url will have to be updated later when in production.
+
+### Defensive Code (pre-processing)
+
+- The post requests from SendGrid will contain objects for all click events. To help us, we are going to install two libraries: `npm install --save lodash path-parser`
