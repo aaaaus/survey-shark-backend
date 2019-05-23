@@ -172,3 +172,9 @@ _user: { type: Schema.Types.ObjectId, ref: 'User' }
 ### Defensive Code (pre-processing)
 
 - The post requests from SendGrid will contain objects for all click events. To help us, we are going to install two libraries: `npm install --save lodash path-parser`
+
+- The post route '/api/surveys/webhooks' contains logic for singling out only click events in which the URL corresponds to one of the answers (yes/no), filtering out undefined events, and duplicate events. Lodash chain helper used to refactor this code.
+
+### Proper querying of database
+
+- Ideally we want to minimize the amount of records being transferred between the Express server and DB. We want to execute as much search logic within MONGO before pulling data over. For example, you would want to avoid fetching the entire survey from the DB as that instance would come with the entire subdocument collection of recipients (lots of data).
