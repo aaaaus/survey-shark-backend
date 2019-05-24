@@ -178,3 +178,7 @@ _user: { type: Schema.Types.ObjectId, ref: 'User' }
 ### Proper querying of database
 
 - Ideally we want to minimize the amount of records being transferred between the Express server and DB. We want to execute as much search logic within MONGO before pulling data over. For example, you would want to avoid fetching the entire survey from the DB as that instance would come with the entire subdocument collection of recipients (lots of data).
+
+- Add Mongo query to the end of the webhook route handler. It is asynchronous, but we do not need to respond to SendGrid (beyond the blank response), so it is not necessary to wait on the response from the server.
+
+- Mongoose querying testing tips: GOOD INFORMATION! `https://www.udemy.com/node-with-react-fullstack-web-development/learn/lecture/7607756#overview`
