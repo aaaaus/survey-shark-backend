@@ -1,21 +1,61 @@
-# one hash
+## Initial Server Setup
 
-## two hash
+- create new folder
+- run `npm init`; hit enter to accept all default values
+- run `npm install --save express` to install express
 
-### three hash
-
-- this
-- is
-- a
-- list
-
-`npm install --save test`
-`git push origin master`
-`more command line stuff`
+- create an index.js file, with the following code to ensure all is working:
 
 ```javascript
-console.log('hello world');
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send({ hi: 'there' });
+});
+
+app.listen(5000);
 ```
+
+- navigate to localhost:5000 to ensure everything is working
+
+## Heroku Deployment
+
+- Dynamic port binding for prod and dev - change app.listen to the following:
+
+```javascript
+const PORT = process.env.PORT || 5000; //Heroku compatibility
+app.listen(PORT);
+```
+
+- Specify Node environment: in package.json, add the following after "main":
+
+```javascript
+  "engines": {
+    "node": "10.15.3",
+    "npm": "5.0.3"
+  },
+```
+
+- adding start script for Heroku (in package.json):
+
+```javascript
+    "start": "node index.js"
+```
+
+- create .gitignore file and include 'node_modules'
+
+## First time Heroku Deployment
+
+- create Heroku online account
+- make sure git is installed, and commit
+- make sure Heroku CLI is installed (check with command 'Heroku -v', if not installed it is possible to do it via homebrew)
+- In the console, run command 'heroku login' to login (if not already)
+- in the project directory, run command 'heroku create'; this will create the URL for our project on Heroku, and the URL for our Heroku git repository
+- Using the second URL, run command 'git remote add heroku <<HEROKU GIT REPOSITORY>>'; we are telling git that we are adding a remote repository, naming it 'heroku' and giving it the address (it is ok if you get the 'fatal already exists' message)
+- run command 'git push heroku master' to send to Heroku
+- run command 'heroku open' to open project in a new browser tab
+- (OPTIONAL) run 'heroku logs' to check for any errors
 
 ## STRIPE
 
