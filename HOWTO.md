@@ -57,6 +57,54 @@ app.listen(PORT);
 - run command 'heroku open' to open project in a new browser tab
 - (OPTIONAL) run 'heroku logs' to check for any errors
 
+## Google OAuth and Passport.js
+
+- Passport.js helps automate the OAuth flow between our server and Google
+- Passport library components:
+
+  - Passport: general helpers for handling auth in Express apps
+  - Passport Strategy: helpers for authenticating with one specific method
+
+- run command `npm install --save passport passport-google-oauth20`
+- import both into the Express project and then call it:
+
+```javascript
+passport.use(new GoogleStrategy());
+```
+
+- GoogleStrategy needs a client ID and a client secret, from the Google OAuth service.
+- Navigate to 'console.developers.google.com'
+- Create a new project; find APIs & Services > Credentials and configure an OAuth consent screen under that tab
+- Under 'Credentials' tab, select 'Create credentials' > OAuth client ID
+- Follow prompts - for authorized origin: `http://localhost:5000`, for redirect URI: `http://localhost:5000/auth/google/callback`
+- Get client ID and secret
+
+- Client ID is public token - we can show this. Secret is obviously as secret. Add to a keys file with module.exports statement, add this file to .gitignore.
+
+- Google Strategy config: first argument to pass in is an object with the client ID and the client secret. In this configurations object, include a callbackURL (such as `/auth/google/callback`)
+
+- create a route handler to begin auth flow on get request to (`/auth/google`). The path is the first argument, and the second is passport configuration, instructing it to use the google strategy, and with scope configuration:
+
+```javascript
+passport.authenticate('google', {
+  scope: ['profile', 'email']
+});
+```
+
+- set up route handler for callback route. Pass it an argument of passport.authenticate again, so that passport can continue the oauth process and make second request to Google. The response from that second request (which contains the accessToken) will set off the callback in the GoogleStrategy
+
+```javascript
+app.get('/auth/google/callback', passport.authenticate('google'));
+```
+
+- end of stage 1 of authentication
+
+## NODEMON SETUP
+
+- `npm install --save nodemon`
+- in package.json, add to "scripts": `"dev": "nodemon index.js"`
+- launch application with `npm run dev`; sever will now auto restart when saving file
+
 ## STRIPE
 
 - create an account on stripe.com
@@ -201,7 +249,7 @@ _user: { type: Schema.Types.ObjectId, ref: 'User' }
 
 ### Webhooks in Development
 
-- In production, receiving post requests form SendGrid will be simple, but not so much in devleopment, where we are operating on localhost:5000. To work around this, we'll take advantage of a service called LocalTunnel, which will receive the post requests on their server, pass it to a local server we will install, which will then pass it to our localhost app server.
+- In production, receiving post requests form SendGrid will be simple, but not so much in development, where we are operating on localhost:5000. To work around this, we'll take advantage of a service called LocalTunnel, which will receive the post requests on their server, pass it to a local server we will install, which will then pass it to our localhost app server.
 
 - Install localtunnel: `npm install --save localtunnel`
 
